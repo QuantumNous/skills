@@ -12,8 +12,9 @@
  *
  * Inject mode: inject-key.js <token_id> <file_path>
  *   Fetches the real key for token_id, replaces __NEWAPI_TOKEN_{id}__
- *   placeholder in the file with the real key. The key never appears
- *   on stdout or stderr.
+ *   placeholder in the file with the real key, creates a backup, and
+ *   atomically replaces the target file. The key never appears on
+ *   stdout or stderr.
  *
  * Exit codes:
  *   0 — success
@@ -39,6 +40,41 @@ const SENSITIVE_PATTERN = new RegExp(
   "(" + SENSITIVE_KEYWORDS.join("|") + ")",
   "i"
 );
+
+function buildBackupPath(targetPath) {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  return `${targetPath}.newapi-${timestamp}.bak`;
+}
+
+function buildTempPath(targetPath) {
+  const dir = path.dirname(targetPath);
+  const base = path.basename(targetPath);
+  return path.join(dir, `.${base}.newapi-${process.pid}-${Date.now()}.tmp`);
+}
+
+function writeFileAtomicallyWithBackup(targetPath, content) {
+  const backupPath = buildBackupPath(targetPath);
+  const tempPath = buildTempPath(targetPath);
+  const stats = fs.statSync(targetPath);
+
+  fs.copyFileSync(targetPath, backupPath);
+
+  try {
+    fs.writeFileSync(tempPath, content, { encoding: "utf-8", mode: stats.mode });
+    fs.renameSync(tempPath, targetPath);
+    return backupPath;
+  } catch {
+    try {
+      if (fs.existsSync(tempPath)) {
+        fs.unlinkSync(tempPath);
+      }
+    } catch {}
+
+    throw new Error(
+      `Failed to safely replace ${targetPath}. The original file was left untouched.`
+    );
+  }
+}
 
 function sanitize(content) {
   // Rule 1: sk- prefixed tokens
@@ -181,9 +217,18 @@ async function main() {
 
   const fullKey = "sk-" + rawKey;
   const updated = content.split(placeholder).join(fullKey);
+  let backupPath;
 
-  fs.writeFileSync(resolved, updated, "utf-8");
-  console.log(`已将 Token ${tokenId} 的密钥注入 ${filePath}`);
+  try {
+    backupPath = writeFileAtomicallyWithBackup(resolved, updated);
+  } catch (error) {
+    console.error(`ERROR: ${error.message}`);
+    process.exit(1);
+  }
+
+  console.log(
+    `已将 Token ${tokenId} 的密钥注入 ${filePath}（已创建备份: ${path.basename(backupPath)}）`
+  );
 }
 
 main().catch(() => {

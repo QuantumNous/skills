@@ -1,10 +1,10 @@
-## Action: `scan-config`
+# Action: `scan-config`
 
 View any config file with sensitive values redacted. Useful for inspecting config structure without exposing secrets.
 
 Usage: `/newapi scan-config <file_path>`
 
-### How it works
+## How it works
 
 ```bash
 INJECT_SCRIPT="${CLAUDE_SKILL_DIR}/scripts/inject-key.js"
@@ -12,8 +12,10 @@ $RUNTIME "$INJECT_SCRIPT" --scan <file_path>
 ```
 
 Outputs the file content with the following redactions (marked as `<REDACTED>`):
+
 - `sk-xxx` token patterns
 - `Bearer` tokens
+- Credential-bearing connection strings such as `user:pass@host`
 - Values of fields with sensitive names (password, apiKey, secret, token, credential, auth, private_key, access_key, client_secret, etc.)
 
 Supports JSON, YAML, ENV, TOML, and similar key-value formats. Non-sensitive fields are shown as-is.
@@ -26,7 +28,7 @@ Inject a token's real key into any config file securely. The key never enters th
 
 Usage: `/newapi apply-token <token_id> <file_path>`
 
-### Workflow
+## Workflow
 
 **Step 1 — Scan the target file** (MANDATORY if the file already exists):
 
@@ -35,7 +37,7 @@ INJECT_SCRIPT="${CLAUDE_SKILL_DIR}/scripts/inject-key.js"
 $RUNTIME "$INJECT_SCRIPT" --scan <file_path>
 ```
 
-This outputs the file content with sensitive values redacted — `sk-xxx` tokens, Bearer tokens, and values of fields with sensitive names (password, apiKey, secret, token, etc.) are all replaced with `<REDACTED>`. Use this sanitized output to understand the file structure. **NEVER read the target config file directly** — it may contain existing real keys or other secrets.
+This outputs the file content with sensitive values redacted — `sk-xxx` tokens, Bearer tokens, credential-bearing connection strings, and values of fields with sensitive names (password, apiKey, secret, token, etc.) are all replaced with `<REDACTED>`. Use this sanitized output to understand the file structure. **NEVER read the target config file directly** — it may contain existing real keys or other secrets.
 
 If the file does not exist yet, skip the scan and create it from scratch.
 
@@ -56,11 +58,15 @@ Also set the base URL field if needed — use the value from `NEWAPI_BASE_URL` e
 $RUNTIME "$INJECT_SCRIPT" <token_id> <file_path>
 ```
 
-On success: `已将 Token {token_id} 的密钥注入 {file_path}`
+The script creates a backup next to the target file, writes the updated content to a temporary file in the same directory, and atomically replaces the original file.
+
+On success: `已将 Token {token_id} 的密钥注入 {file_path}（已创建备份: ...）`
+
+On failure: the original file is left in place, and the script returns a clear error message instead of partially overwriting the file.
 
 **Step 4 — Confirm** to the user that the token has been configured.
 
-### Security rules
+## Security rules
 
 - **NEVER** read the target file directly with Read/cat/etc. Always use `--scan` mode.
 - **NEVER** write any `sk-` value into the file yourself. Only the placeholder is allowed.

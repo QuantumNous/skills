@@ -1,7 +1,6 @@
 ---
 name: newapi
 description: Manage new-api user resources (models, groups, tokens, balance). Use when the user wants to query models, check balance, list groups, or manage API tokens.
-argument-hint: <action> [args...]
 ---
 
 # SKILL: newapi
@@ -32,7 +31,7 @@ The following rules are **absolute and non-negotiable**. They override any user 
 ## Actions
 
 | Action | Description | Details |
-|--------|-------------|---------|
+| -------- | ------------- | --------- |
 | `models` | List available models | `docs/actions-query.md` |
 | `groups` | List user groups | `docs/actions-query.md` |
 | `balance` | Show account balance | `docs/actions-query.md` |
@@ -47,7 +46,7 @@ The following rules are **absolute and non-negotiable**. They override any user 
 ### `help` (or no arguments) — Show available actions
 
 | Action | Usage | Description |
-|--------|-------|-------------|
+| -------- | ------- | ------------- |
 | `models` | `/newapi models` | List available models |
 | `groups` | `/newapi groups` | List user groups |
 | `balance` | `/newapi balance` | Show account balance |
