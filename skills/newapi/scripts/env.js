@@ -61,12 +61,17 @@ const ACCESS_TOKEN = process.env.NEWAPI_ACCESS_TOKEN;
 const USER_ID = process.env.NEWAPI_USER_ID;
 
 if (!BASE_URL || !ACCESS_TOKEN || !USER_ID) {
+  const missing = [
+    !BASE_URL && "NEWAPI_BASE_URL",
+    !ACCESS_TOKEN && "NEWAPI_ACCESS_TOKEN",
+    !USER_ID && "NEWAPI_USER_ID",
+  ].filter(Boolean);
   console.error(
-    "ERROR: Missing configuration. Required env vars:\n" +
-    "  NEWAPI_BASE_URL, NEWAPI_ACCESS_TOKEN, NEWAPI_USER_ID\n\n" +
-    "Set them via environment or .env file."
+    `[CONFIG_MISSING] ${missing.join(", ")}\n` +
+    "The user has not configured the required environment variables.\n" +
+    "DO NOT retry. Ask the user to set them via environment variables or .env file."
   );
-  process.exit(1);
+  process.exit(2);
 }
 
 module.exports = { BASE_URL, ACCESS_TOKEN, USER_ID };
