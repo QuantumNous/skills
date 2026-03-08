@@ -4,19 +4,19 @@
 
 Configuration is loaded in the following priority order (higher overrides lower):
 
-1. **Environment variables** (highest priority)
+1. **Environment variables** (highest priority, recommended)
 2. **Skill directory `.env`** (next to SKILL.md)
 3. **Project root `.env`** — project-level config
 
-Required variables:
+Required variables — recommended to export in your shell profile:
 
-```
-NEWAPI_BASE_URL=https://api.example.com
-NEWAPI_ACCESS_TOKEN=your-32-char-access-token
-NEWAPI_USER_ID=1
+```bash
+export NEWAPI_BASE_URL=https://your-newapi-instance.com
+export NEWAPI_ACCESS_TOKEN=your-newapi-access-token
+export NEWAPI_USER_ID=your-newapi-user-id
 ```
 
-Make sure `.env` is in `.gitignore` to avoid leaking credentials.
+Alternatively, create a `.env` file (make sure it's in `.gitignore`).
 
 ### Authentication
 

@@ -69,7 +69,7 @@ if (!BASE_URL || !ACCESS_TOKEN || !USER_ID) {
   console.error(
     `[CONFIG_MISSING] ${missing.join(", ")}\n` +
     "The user has not configured the required environment variables.\n" +
-    "DO NOT retry. Ask the user to set them via environment variables or .env file."
+    "DO NOT retry. Ask the user to export them (e.g. `export NEWAPI_BASE_URL=...`) or set them in a .env file."
   );
   process.exit(2);
 }
