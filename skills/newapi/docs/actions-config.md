@@ -1,3 +1,25 @@
+## Action: `scan-config`
+
+View any config file with sensitive values redacted. Useful for inspecting config structure without exposing secrets.
+
+Usage: `/newapi scan-config <file_path>`
+
+### How it works
+
+```bash
+INJECT_SCRIPT="${CLAUDE_SKILL_DIR}/scripts/inject-key.js"
+$RUNTIME "$INJECT_SCRIPT" --scan <file_path>
+```
+
+Outputs the file content with the following redactions (marked as `<REDACTED>`):
+- `sk-xxx` token patterns
+- `Bearer` tokens
+- Values of fields with sensitive names (password, apiKey, secret, token, credential, auth, private_key, access_key, client_secret, etc.)
+
+Supports JSON, YAML, ENV, TOML, and similar key-value formats. Non-sensitive fields are shown as-is.
+
+---
+
 ## Action: `apply-token`
 
 Inject a token's real key into any config file securely. The key never enters the AI conversation context.
@@ -13,7 +35,7 @@ INJECT_SCRIPT="${CLAUDE_SKILL_DIR}/scripts/inject-key.js"
 $RUNTIME "$INJECT_SCRIPT" --scan <file_path>
 ```
 
-This outputs the file content with sensitive values redacted — `sk-xxx` tokens, Bearer tokens, and values of fields with sensitive names (password, apiKey, secret, token, etc.) are all replaced with `****`. Use this sanitized output to understand the file structure. **NEVER read the target config file directly** — it may contain existing real keys or other secrets.
+This outputs the file content with sensitive values redacted — `sk-xxx` tokens, Bearer tokens, and values of fields with sensitive names (password, apiKey, secret, token, etc.) are all replaced with `<REDACTED>`. Use this sanitized output to understand the file structure. **NEVER read the target config file directly** — it may contain existing real keys or other secrets.
 
 If the file does not exist yet, skip the scan and create it from scratch.
 

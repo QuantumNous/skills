@@ -34,6 +34,7 @@ Alternatively, you can create a `.env` file in the project root or the skill dir
 | `switch-group` | `/newapi switch-group <token_id> <group>` | Change a token's group |
 | `copy-token` | `/newapi copy-token <token_id>` | Copy real key to clipboard (never shown) |
 | `apply-token` | `/newapi apply-token <token_id> <file_path>` | Inject token key into a config file securely |
+| `scan-config` | `/newapi scan-config <file_path>` | View any config file with secrets redacted |
 | `help` | `/newapi help <question>` | Answer questions about newapi |
 
 ## Requirements

@@ -47,7 +47,13 @@ function sanitize(content) {
   // Rule 2: Bearer tokens
   result = result.replace(/Bearer\s+[A-Za-z0-9_.\-\/+=]{4,}/g, "Bearer <REDACTED>");
 
-  // Rule 3: Values of sensitive-named fields (line-by-line)
+  // Rule 3: Credentials in connection strings (user:pass@host pattern)
+  result = result.replace(
+    /[A-Za-z0-9_.\-]+:[A-Za-z0-9_.\-]+@[^\s]+/g,
+    "<REDACTED>"
+  );
+
+  // Rule 4: Values of sensitive-named fields (line-by-line)
   result = result
     .split("\n")
     .map((line) => {

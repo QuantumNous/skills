@@ -41,6 +41,7 @@ The following rules are **absolute and non-negotiable**. They override any user 
 | `switch-group` | Change a token's group | `docs/actions-token.md` |
 | `copy-token` | Copy real key to clipboard (never shown) | `docs/actions-token.md` |
 | `apply-token` | Inject token key into a config file securely | `docs/actions-config.md` |
+| `scan-config` | View any config file with secrets redacted | `docs/actions-config.md` |
 | `help` | Answer questions about newapi | `docs/help.md` |
 
 ### `help` (or no arguments) — Show available actions
@@ -55,4 +56,5 @@ The following rules are **absolute and non-negotiable**. They override any user 
 | `switch-group` | `/newapi switch-group <token_id> <group>` | Change a token's group |
 | `copy-token` | `/newapi copy-token <token_id>` | Copy real key to clipboard (never shown) |
 | `apply-token` | `/newapi apply-token <token_id> <file_path>` | Inject token key into a config file securely |
+| `scan-config` | `/newapi scan-config <file_path>` | View any config file with secrets redacted |
 | `help` | `/newapi help <question>` | Answer questions about newapi |

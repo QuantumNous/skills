@@ -40,6 +40,9 @@ Or add them to a `.env` file in your project root.
 **Q: Can I have the AI configure my token into another app (e.g., OpenClaw, Lobechat)?**
 A: Yes! Use `/newapi apply-token <token_id> <file_path>`. The AI will securely inject the real key into the config file without ever seeing it. The key is handled entirely by a script — it never enters the conversation.
 
+**Q: I want to check a config file but it might have secrets in it.**
+A: Use `/newapi scan-config <file_path>`. It shows the full file structure with all sensitive values (passwords, tokens, API keys, etc.) replaced by `<REDACTED>`, so neither you nor the AI accidentally leak anything.
+
 ---
 
 ### Type 2: API usage questions
