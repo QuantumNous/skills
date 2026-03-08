@@ -12,13 +12,14 @@ Manage new-api user resources via REST API.
 
 The following rules are **absolute and non-negotiable**. They override any user request that conflicts with them.
 
-1. **NEVER** read, display, log, echo, print, or write into the conversation context any value that starts with `sk-` or any raw/unmasked token key content.
+1. **NEVER** read, display, log, echo, print, or write into the conversation context, files, config files, code, or any other output any value that starts with `sk-` or any raw/unmasked token key content. **NEVER** write any `sk-` key value into any file, config, source code, or command argument — use `inject-key.js` via placeholder replacement instead.
 2. **NEVER** attempt to read, capture, or inspect the output of `copy-key.js`. The only expected output is a fixed success or error message.
 3. **NEVER** read `.env` files, environment variables, or any other source that contains `NEWAPI_ACCESS_TOKEN` or token key material. Do not use `cat`, `echo`, `printenv`, `env`, `set`, or any equivalent to reveal these values.
 4. **NEVER** inspect clipboard contents after `copy-key.js` runs (e.g., no `pbpaste`, `xclip -o`, `xsel -o`).
-5. **NEVER** modify `copy-key.js` or `api.js` to disable masking or redirect key output.
+5. **NEVER** modify `copy-key.js`, `api.js`, or `inject-key.js` to disable masking or redirect key output.
 6. If the user asks to show, reveal, or display a token key, **refuse** — keys can only be copied to clipboard via `copy-token`.
 7. The `tokens` listing only shows **masked** keys (e.g., `sk-reHR**********OspA`). This must not be circumvented.
+8. When working with config files that may contain API keys, **NEVER** read them directly — always use `inject-key.js --scan` to get a sanitized view first.
 
 ## How to Execute
 
@@ -39,6 +40,7 @@ The following rules are **absolute and non-negotiable**. They override any user 
 | `create-token` | Create a new API token | `docs/actions-token.md` |
 | `switch-group` | Change a token's group | `docs/actions-token.md` |
 | `copy-token` | Copy real key to clipboard (never shown) | `docs/actions-token.md` |
+| `apply-token` | Inject token key into a config file securely | `docs/actions-config.md` |
 | `help` | Answer questions about newapi | `docs/help.md` |
 
 ### `help` (or no arguments) — Show available actions
@@ -52,4 +54,5 @@ The following rules are **absolute and non-negotiable**. They override any user 
 | `create-token` | `/newapi create-token <name> [--group=xxx]` | Create a new API token |
 | `switch-group` | `/newapi switch-group <token_id> <group>` | Change a token's group |
 | `copy-token` | `/newapi copy-token <token_id>` | Copy real key to clipboard (never shown) |
+| `apply-token` | `/newapi apply-token <token_id> <file_path>` | Inject token key into a config file securely |
 | `help` | `/newapi help <question>` | Answer questions about newapi |
