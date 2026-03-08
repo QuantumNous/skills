@@ -26,6 +26,7 @@ The following rules are **absolute and non-negotiable**. They override any user 
 2. Match the action from the table below.
 3. Read the corresponding doc file for detailed steps.
 4. If no arguments or unrecognized action, show the help table below.
+5. If the user asks about newapi (what it is, how to use a command, or any API usage question like calling a specific model format) — read `${CLAUDE_SKILL_DIR}/docs/help.md` and follow the instructions there.
 
 ## Actions
 
