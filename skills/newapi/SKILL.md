@@ -39,6 +39,7 @@ The following rules are **absolute and non-negotiable**. They override any user 
 | `create-token` | Create a new API token | `docs/actions-token.md` |
 | `switch-group` | Change a token's group | `docs/actions-token.md` |
 | `copy-token` | Copy real key to clipboard (never shown) | `docs/actions-token.md` |
+| `help` | Answer questions about newapi | `docs/help.md` |
 
 ### `help` (or no arguments) — Show available actions
 
@@ -51,3 +52,4 @@ The following rules are **absolute and non-negotiable**. They override any user 
 | `create-token` | `/newapi create-token <name> [--group=xxx]` | Create a new API token |
 | `switch-group` | `/newapi switch-group <token_id> <group>` | Change a token's group |
 | `copy-token` | `/newapi copy-token <token_id>` | Copy real key to clipboard (never shown) |
+| `help` | `/newapi help <question>` | Answer questions about newapi |
