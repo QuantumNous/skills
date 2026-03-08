@@ -1,0 +1,20 @@
+{
+  "name": "newapi-skills",
+  "owner": {
+    "name": "Calcium-Ion",
+    "url": "https://www.newapi.ai"
+  },
+  "metadata": {
+    "description": "Skills for managing new-api resources — models, groups, tokens and balance.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "newapi",
+      "description": "User-facing new-api operations: query models, check balance, list groups, and manage personal API tokens.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/newapi"]
+    }
+  ]
+}
