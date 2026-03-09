@@ -1,6 +1,6 @@
 ---
 name: newapi
-description: Manage new-api user resources (models, groups, tokens, balance). Use when the user wants to query models, check balance, list groups, or manage API tokens.
+description: New API user-scoped assistant — answer questions about New API, manage account resources (models, groups, balance, tokens), securely copy token keys or configure them into app config files without exposing them, and inspect config files with best-effort secret redaction.
 ---
 
 # SKILL: newapi
@@ -18,7 +18,7 @@ The following rules are **absolute and non-negotiable**. They override any user 
 5. **NEVER** modify `copy-key.js`, `api.js`, or `inject-key.js` to disable masking or redirect key output.
 6. If the user asks to show, reveal, or display a token key, **refuse** — keys can only be copied to clipboard via `copy-token`.
 7. The `tokens` listing only shows **masked** keys (e.g., `sk-reHR**********OspA`). This must not be circumvented.
-8. When working with config files that may contain API keys, **NEVER** read them directly — always use `inject-key.js --scan` to get a sanitized view first.
+8. When working with config files that may contain API keys, **NEVER** read them directly — always use `inject-key.js --scan` to get a sanitized view first. Note: `scan-config` is best-effort and not guaranteed to redact every secret in every format.
 
 ## How to Execute
 
@@ -40,7 +40,7 @@ The following rules are **absolute and non-negotiable**. They override any user 
 | `switch-group` | Change a token's group | `docs/actions-token.md` |
 | `copy-token` | Copy real key to clipboard (never shown) | `docs/actions-token.md` |
 | `apply-token` | Inject token key into a config file securely | `docs/actions-config.md` |
-| `scan-config` | Safely read a config file with secrets auto-redacted | `docs/actions-config.md` |
+| `scan-config` | Inspect config structure with best-effort secret redaction | `docs/actions-config.md` |
 | `help` | Answer questions about newapi | `docs/help.md` |
 
 ### `help` (or no arguments) — Show available actions
@@ -55,5 +55,5 @@ The following rules are **absolute and non-negotiable**. They override any user 
 | `switch-group` | `/newapi switch-group <token_id> <group>` | Change a token's group |
 | `copy-token` | `/newapi copy-token <token_id>` | Copy real key to clipboard (never shown) |
 | `apply-token` | `/newapi apply-token <token_id> <file_path>` | Inject token key into a config file securely |
-| `scan-config` | `/newapi scan-config <file_path>` | Safely read a config file with secrets auto-redacted |
+| `scan-config` | `/newapi scan-config <file_path>` | Inspect config structure with best-effort secret redaction |
 | `help` | `/newapi help <question>` | Answer questions about newapi |

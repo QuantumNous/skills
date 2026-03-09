@@ -1,6 +1,6 @@
 # Action: `scan-config`
 
-View any config file with sensitive values redacted. Useful for inspecting config structure without exposing secrets.
+Inspect a config file's structure with best-effort secret redaction. Useful for understanding config layout without exposing secrets, but not guaranteed to catch every sensitive value in every file format.
 
 Usage: `/newapi scan-config <file_path>`
 
@@ -19,6 +19,8 @@ Outputs the file content with the following redactions (marked as `<REDACTED>`):
 - Values of fields with sensitive names (password, apiKey, secret, token, credential, auth, private_key, access_key, client_secret, etc.)
 
 Supports JSON, YAML, ENV, TOML, and similar key-value formats. Non-sensitive fields are shown as-is.
+
+> **Disclaimer:** `scan-config` provides a best-effort structural view for safer inspection. It is not a formal parser and is not guaranteed to catch every sensitive value in every file format. Treat it as a risk-reduction measure, not an absolute security guarantee.
 
 ---
 
@@ -63,6 +65,8 @@ The script creates a backup next to the target file, writes the updated content 
 On success: `已将 Token {token_id} 的密钥注入 {file_path}（已创建备份: ...）`
 
 On failure: the original file is left in place, and the script returns a clear error message instead of partially overwriting the file.
+
+> **Warning:** The `.bak` file contains the real injected key and is equally sensitive. Do not commit it to version control. After confirming the config works correctly, delete the backup or store it in a secure location.
 
 **Step 4 — Confirm** to the user that the token has been configured.
 
