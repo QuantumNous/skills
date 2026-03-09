@@ -47,6 +47,9 @@ A: Yes. Use `/newapi apply-token <token_id> <file_path>`. The AI will update the
 **Q: I want to check a config file but it might have secrets in it.**
 A: Use `/newapi scan-config <file_path>`. It shows the file structure with sensitive values such as passwords, tokens, API keys, and credential-bearing connection strings replaced by `<REDACTED>`, so neither you nor the AI accidentally expose secrets. Note that this is a best-effort heuristic — it is not a formal parser and may not catch every secret in every file format, so treat it as a risk-reduction measure rather than an absolute guarantee.
 
+**Q: How do I configure a third-party CLI that needs `config set ... <key>`?**
+A: Use `/newapi exec-token <token_id> <command...>`. Write the full command but use the placeholder `__NEWAPI_TOKEN_{id}__` where the real key would go. The script replaces the placeholder and executes the command — the real key never enters the AI conversation. For example: `/newapi exec-token 42 openclaw config set provider.openai.apiKey __NEWAPI_TOKEN_42__`.
+
 ---
 
 ## Type 2: API usage questions

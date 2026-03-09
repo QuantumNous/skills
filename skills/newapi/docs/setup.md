@@ -20,11 +20,12 @@ Alternatively, create a `.env` file (make sure it's in `.gitignore`).
 
 ## Mental Model
 
-This skill uses two JavaScript scripts with different responsibilities:
+This skill uses several JavaScript scripts with different responsibilities:
 
 - `scripts/api.js` handles New API management actions such as listing models, groups, balance, and token metadata.
 - `scripts/inject-key.js --scan <file_path>` safely shows the structure of an existing config file with secrets redacted.
-- `scripts/inject-key.js <token_id> <file_path>` replaces a placeholder with the real token key without exposing that key in the conversation, while creating a backup and atomically replacing the target file.
+- `scripts/inject-key.js <token_id> <file_path>` replaces a placeholder with the real token key in a config file without exposing that key in the conversation, while creating a backup and atomically replacing the target file.
+- `scripts/exec-token.js <token_id> -- <command>` replaces a placeholder with the real token key in a shell command and executes it, sanitizing stdout/stderr before returning to the AI.
 
 When working with config files that may already contain secrets, always use `--scan` first. Do not read those files directly.
 
@@ -44,6 +45,7 @@ The skill ships with plain JavaScript scripts and no external dependencies. Befo
 ```bash
 API_SCRIPT="${CLAUDE_SKILL_DIR}/scripts/api.js"
 INJECT_SCRIPT="${CLAUDE_SKILL_DIR}/scripts/inject-key.js"
+EXEC_SCRIPT="${CLAUDE_SKILL_DIR}/scripts/exec-token.js"
 
 # Detect runtime (prefer bun > node > deno)
 if command -v bun &>/dev/null; then RUNTIME="bun"; \
@@ -52,7 +54,7 @@ elif command -v deno &>/dev/null; then RUNTIME="deno run --allow-net --allow-rea
 else echo "ERROR: No JS runtime found (need bun, node, or deno)" >&2; exit 1; fi
 ```
 
-Use the same runtime for both scripts.
+Use the same runtime for all scripts.
 
 Management API calls:
 
@@ -70,6 +72,12 @@ Token injection by placeholder replacement:
 
 ```bash
 $RUNTIME "$INJECT_SCRIPT" <token_id> <file_path>
+```
+
+Secure command execution with token placeholder:
+
+```bash
+$RUNTIME "$EXEC_SCRIPT" <token_id> -- <command with __NEWAPI_TOKEN_{id}__>
 ```
 
 The expected workflow for configuring another app is:

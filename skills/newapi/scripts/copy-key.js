@@ -14,6 +14,7 @@
 
 const { execSync } = require("child_process");
 const { BASE_URL, ACCESS_TOKEN, USER_ID } = require("./env");
+const { fetchTokenKey } = require("./fetch-key");
 
 // --- Args ---
 
@@ -47,39 +48,17 @@ async function main() {
     process.exit(1);
   }
 
-  const res = await fetch(`${BASE_URL}/api/token/${tokenId}/key`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${ACCESS_TOKEN}`,
-      "New-Api-User": USER_ID,
-    },
-  });
-
-  if (res.status >= 400) {
-    const errText = await res.text();
-    let msg = `HTTP ${res.status}`;
-    try {
-      const errJson = JSON.parse(errText);
-      if (errJson.message) msg = errJson.message;
-    } catch {}
-    console.error(`ERROR: ${msg}`);
+  let fullKey;
+  try {
+    fullKey = await fetchTokenKey(tokenId, {
+      baseUrl: BASE_URL,
+      accessToken: ACCESS_TOKEN,
+      userId: USER_ID,
+    });
+  } catch (error) {
+    console.error(`ERROR: ${error.message}`);
     process.exit(1);
   }
-
-  const body = await res.json();
-
-  if (!body.success && !body.data) {
-    console.error(`ERROR: ${body.message || "Unknown API error"}`);
-    process.exit(1);
-  }
-
-  const rawKey = body.data?.key;
-  if (!rawKey) {
-    console.error("ERROR: API response did not contain a key");
-    process.exit(1);
-  }
-
-  const fullKey = "sk-" + rawKey;
 
   try {
     execSync(clipCmd, { input: fullKey, stdio: ["pipe", "ignore", "ignore"] });
