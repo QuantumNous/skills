@@ -1,5 +1,5 @@
 /**
- * Secure token key injector for config files.
+ * Secure token key writer for config files.
  *
  * Two modes:
  *
@@ -7,7 +7,7 @@
  *   Outputs file content with sensitive values redacted so the AI can
  *   understand structure without seeing real keys.
  *
- * Inject mode: inject-key.js <token_id> <file_path>
+ * Apply mode:  inject-key.js <token_id> <file_path>
  *   Fetches the real key for token_id, replaces __NEWAPI_TOKEN_{id}__
  *   placeholder in the file with the real key, creates a backup, and
  *   atomically replaces the target file. The key never appears on
@@ -80,7 +80,7 @@ if (process.argv[2] === "--scan") {
   process.exit(0);
 }
 
-// --- Inject mode ---
+// --- Apply mode ---
 
 const { BASE_URL, ACCESS_TOKEN, USER_ID } = require("./env");
 const { fetchTokenKey } = require("./fetch-key");
@@ -133,7 +133,7 @@ async function main() {
   }
 
   console.log(
-    `已将 Token ${tokenId} 的密钥注入 ${filePath}（已创建备份: ${path.basename(backupPath)}）`
+    `已将 Token ${tokenId} 的密钥写入 ${filePath}（已创建备份: ${path.basename(backupPath)}）`
   );
 }
 

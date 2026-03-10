@@ -68,7 +68,7 @@ Safe config inspection:
 $RUNTIME "$INJECT_SCRIPT" --scan <file_path>
 ```
 
-Token injection by placeholder replacement:
+Token application by placeholder replacement:
 
 ```bash
 $RUNTIME "$INJECT_SCRIPT" <token_id> <file_path>
@@ -85,7 +85,7 @@ The expected workflow for configuring another app is:
 1. Scan the existing config file with `--scan`.
 2. Edit the file so the target key field contains `__NEWAPI_TOKEN_{token_id}__`.
 3. Run `inject-key.js <token_id> <file_path>` to replace the placeholder with the real key.
-4. Trust the script's success or error message instead of reopening the file to inspect the injected key.
+4. Trust the script's success or error message instead of reopening the file to inspect the written key.
 5. Delete the `.bak` backup file after confirming the config works — it contains the real key and should not be committed to version control or left unsecured.
 
 ## Error Handling

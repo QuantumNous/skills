@@ -10,7 +10,7 @@ Questions like "newapi 是什么", "怎么查余额", "copy-token 怎么用", "C
 
 ### What is New API?
 
-[New API](https://www.newapi.ai) is a unified AI gateway for aggregating and distributing model access. It can expose different providers through OpenAI-compatible, Claude-compatible, or Gemini-compatible interfaces, making it easier to integrate multiple model vendors behind one endpoint.
+[New API](https://github.com/QuantumNous/new-api) is an open-source unified AI gateway ([website](https://www.newapi.ai)) for aggregating and distributing model access. It can expose different providers through OpenAI-compatible, Claude-compatible, or Gemini-compatible interfaces, making it easier to integrate multiple model vendors behind one endpoint.
 
 In addition to model access, New API provides token management, usage tracking, balance monitoring, and group-based access control.
 
@@ -49,6 +49,9 @@ A: Use `/newapi scan-config <file_path>`. It shows the file structure with sensi
 
 **Q: How do I configure a third-party CLI that needs `config set ... <key>`?**
 A: Use `/newapi exec-token <token_id> <command...>`. Write the full command but use the placeholder `__NEWAPI_TOKEN_{id}__` where the real key would go. The script replaces the placeholder and executes the command — the real key never enters the AI conversation. For example: `/newapi exec-token 42 openclaw config set provider.openai.apiKey __NEWAPI_TOKEN_42__`.
+
+**Q: How do I install or update this skill?**
+A: Run `npx skills add https://github.com/QuantumNous/skills --skill newapi`. This fetches the latest version from the [skills repository](https://github.com/QuantumNous/skills).
 
 ---
 

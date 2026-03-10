@@ -1,6 +1,6 @@
 # Action: `exec-token`
 
-Execute a shell command with a token key securely injected via placeholder replacement. The real key never enters the AI conversation context.
+Execute a shell command with a token key securely substituted via placeholder replacement. The real key never enters the AI conversation context.
 
 Usage: `/newapi exec-token <token_id> <command...>`
 

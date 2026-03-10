@@ -26,7 +26,7 @@ Supports JSON, YAML, ENV, TOML, and similar key-value formats. Non-sensitive fie
 
 ## Action: `apply-token`
 
-Inject a token's real key into any config file securely. The key never enters the AI conversation context.
+Apply a token's real key to any config file securely. The key never enters the AI conversation context.
 
 Usage: `/newapi apply-token <token_id> <file_path>`
 
@@ -54,7 +54,7 @@ Edit the file and set the API key field to `__NEWAPI_TOKEN_{token_id}__`. For ex
 
 Also set the base URL field if needed — use the value from `NEWAPI_BASE_URL` environment variable with `/v1` appended (e.g., `https://api.example.com/v1`). The base URL is NOT a secret and can be written directly.
 
-**Step 3 — Inject the real key**:
+**Step 3 — Apply the real key**:
 
 ```bash
 $RUNTIME "$INJECT_SCRIPT" <token_id> <file_path>
@@ -62,11 +62,11 @@ $RUNTIME "$INJECT_SCRIPT" <token_id> <file_path>
 
 The script creates a backup next to the target file, writes the updated content to a temporary file in the same directory, and atomically replaces the original file.
 
-On success: `已将 Token {token_id} 的密钥注入 {file_path}（已创建备份: ...）`
+On success: `已将 Token {token_id} 的密钥写入 {file_path}（已创建备份: ...）`
 
 On failure: the original file is left in place, and the script returns a clear error message instead of partially overwriting the file.
 
-> **Warning:** The `.bak` file contains the real injected key and is equally sensitive. Do not commit it to version control. After confirming the config works correctly, delete the backup or store it in a secure location.
+> **Warning:** The `.bak` file contains the real key written into the config and is equally sensitive. Do not commit it to version control. After confirming the config works correctly, delete the backup or store it in a secure location.
 
 **Step 4 — Confirm** to the user that the token has been configured.
 
@@ -74,5 +74,5 @@ On failure: the original file is left in place, and the script returns a clear e
 
 - **NEVER** read the target file directly with Read/cat/etc. Always use `--scan` mode.
 - **NEVER** write any `sk-` value into the file yourself. Only the placeholder is allowed.
-- **NEVER** read the file after injection to verify the key — trust the script's success message.
+- **NEVER** read the file after applying the key to verify it — trust the script's success message.
 - The placeholder format is strictly `__NEWAPI_TOKEN_{token_id}__` — no variations.

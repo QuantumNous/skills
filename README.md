@@ -1,6 +1,6 @@
 # newapi-skills
 
-Skills for managing [new-api](https://www.newapi.ai) resources — models, groups, tokens and balance.
+Skills for managing [new-api](https://github.com/QuantumNous/new-api) (open-source AI gateway) resources — models, groups, tokens and balance.
 
 ## Installation
 
@@ -25,7 +25,7 @@ Alternatively, you can create a `.env` file in the project root or the skill dir
 ## Usage
 
 | Action | Usage | Description |
-|--------|-------|-------------|
+| ------ | ----- | ----------- |
 | `models` | `/newapi models` | List available models |
 | `groups` | `/newapi groups` | List user groups |
 | `balance` | `/newapi balance` | Show account balance |
@@ -33,8 +33,8 @@ Alternatively, you can create a `.env` file in the project root or the skill dir
 | `create-token` | `/newapi create-token <name> [--group=xxx]` | Create a new API token |
 | `switch-group` | `/newapi switch-group <token_id> <group>` | Change a token's group |
 | `copy-token` | `/newapi copy-token <token_id>` | Copy real key to clipboard (never shown) |
-| `apply-token` | `/newapi apply-token <token_id> <file_path>` | Inject token key into a config file securely |
-| `exec-token` | `/newapi exec-token <token_id> <command...>` | Execute a command with token key securely injected |
+| `apply-token` | `/newapi apply-token <token_id> <file_path>` | Apply token key to a config file securely |
+| `exec-token` | `/newapi exec-token <token_id> <command...>` | Execute a command with the token key securely substituted |
 | `scan-config` | `/newapi scan-config <file_path>` | Inspect config structure with best-effort secret redaction |
 | `help` | `/newapi help <question>` | Answer questions about newapi |
 
