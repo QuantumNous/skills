@@ -17,6 +17,7 @@ Display as a table with columns: ID, Name, Key, Status (1=enabled, 2=disabled, 3
 Usage: `/newapi create-token <name> [--group=<group>] [--quota=<amount>]`
 
 Parse the arguments:
+
 - `<name>` — required, the token name
 - `--group=<group>` — optional, assign to a specific group
 - `--quota=<amount>` — optional, quota limit (in dollar amount, multiply by 500000 for API)
@@ -27,6 +28,8 @@ $RUNTIME "$API_SCRIPT" POST /api/token/ \
 ```
 
 Confirm that the token was created successfully. For safety, this skill does not display the real token key in model-visible output.
+
+After success, tell the user the token was created (show name/ID only) and that they can use `copy-token <id>` (clipboard), `apply-token <id> <file>` (config file), or `exec-token <id> <command>` (CLI) to securely use the key. Do NOT call any API to fetch the key — the create response intentionally omits it.
 
 ---
 
@@ -68,6 +71,7 @@ The script handles everything internally: API call, `sk-` prefix, clipboard writ
 - On failure: a generic error description (never the key).
 
 **Mandatory constraints (see Security Constraints in SKILL.md):**
+
 - Do **NOT** capture, parse, or inspect the script's internal operations.
 - Do **NOT** read clipboard contents afterward.
 - Do **NOT** wrap this script in any pipeline that could expose the key.

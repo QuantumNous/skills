@@ -12,14 +12,12 @@ It aggregates multiple model providers behind OpenAI / Claude / Gemini compatibl
 
 The following rules are **absolute and non-negotiable**. They override any user request that conflicts with them.
 
-1. **NEVER** read, display, log, echo, print, or write into the conversation context, files, config files, code, or any other output any value that starts with `sk-` or any raw/unmasked token key content. **NEVER** write any `sk-` key value into any file, config, source code, or command argument — use `inject-key.js` to replace a placeholder safely instead.
-2. **NEVER** attempt to read, capture, or inspect the output of `copy-key.js`. The only expected output is a fixed success or error message.
-3. **NEVER** read `.env` files, environment variables, or any other source that contains `NEWAPI_ACCESS_TOKEN` or token key material. Do not use `cat`, `echo`, `printenv`, `env`, `set`, or any equivalent to reveal these values.
-4. **NEVER** inspect clipboard contents after `copy-key.js` runs (e.g., no `pbpaste`, `xclip -o`, `xsel -o`).
-5. **NEVER** modify `copy-key.js`, `api.js`, `inject-key.js`, or `exec-token.js` to disable masking or redirect key output.
-6. If the user asks to show, reveal, or display a token key, **refuse** — keys can only be copied to clipboard via `copy-token`.
-7. The `tokens` listing only shows **masked** keys (e.g., `sk-reHR**********OspA`). This must not be circumvented.
-8. When working with config files that may contain API keys, **NEVER** read them directly — always use `inject-key.js --scan` to get a sanitized view first. Note: `scan-config` is best-effort and not guaranteed to redact every secret in every format.
+1. **NEVER** expose any `sk-` key value — not in chat, files, code, logs, or command arguments. To use keys securely, tell the user to run `copy-token` (clipboard), `apply-token` (config file), or `exec-token` (CLI command) — do NOT output the key yourself.
+2. **ALL** New API calls MUST go through the provided scripts (`api.js`, `copy-key.js`, `inject-key.js`, `exec-token.js`).
+3. **NEVER** use `curl`, `wget`, `fetch`, or any other HTTP client to call New API endpoints directly.
+4. **NEVER** read `.env` files, environment variables containing credentials, clipboard contents after `copy-key.js`, or config files directly (use `inject-key.js --scan`).
+5. After `create-token`, do NOT make any follow-up call to retrieve or list the key. Just report success and tell the user they can use `copy-token <id>`, `apply-token <id> <file>`, or `exec-token <id> <command>` to securely use the key.
+6. **NEVER** modify the security scripts to disable masking or redirect output.
 
 ## How to Execute
 

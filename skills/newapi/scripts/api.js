@@ -7,6 +7,7 @@
  */
 
 const { BASE_URL, ACCESS_TOKEN, USER_ID } = require("./env");
+const { sanitize } = require("./sanitize");
 
 // --- Args ---
 
@@ -76,10 +77,20 @@ async function main() {
   if (shouldMask(urlPath)) {
     try {
       const data = JSON.parse(text);
-      console.log(JSON.stringify(walk(data)));
+      console.log(sanitize(JSON.stringify(walk(data))));
     } catch {
       console.log(
         '{"success":false,"message":"token response omitted because masking failed"}'
+      );
+    }
+
+    if (method === "POST") {
+      console.log(
+        "\n[NEXT_STEP] Token created. Tell the user to run `copy-token <id>`, `apply-token <id> <file>`, or `exec-token <id> <command>` to use the key securely. Do NOT retrieve the key yourself."
+      );
+    } else if (method === "GET") {
+      console.log(
+        "\n[REMINDER] Keys shown above are masked. Do NOT call any API to fetch full keys. Tell the user to run `copy-token <id>`, `apply-token <id> <file>`, or `exec-token <id> <command>` if they need to use a key."
       );
     }
   } else {
