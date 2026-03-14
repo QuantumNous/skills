@@ -60,13 +60,11 @@ Also set the base URL field if needed — use the value from `NEWAPI_BASE_URL` e
 $RUNTIME "$INJECT_SCRIPT" <token_id> <file_path>
 ```
 
-The script creates a backup next to the target file, writes the updated content to a temporary file in the same directory, and atomically replaces the original file.
+The script writes the updated content to a temporary file in the same directory and atomically replaces the original file.
 
-On success: `已将 Token {token_id} 的密钥写入 {file_path}（已创建备份: ...）`
+On success: `已将 Token {token_id} 的密钥写入 {file_path}`
 
 On failure: the original file is left in place, and the script returns a clear error message instead of partially overwriting the file.
-
-> **Warning:** The `.bak` file contains the real key written into the config and is equally sensitive. Do not commit it to version control. After confirming the config works correctly, delete the backup or store it in a secure location.
 
 **Step 4 — Confirm** to the user that the token has been configured.
 

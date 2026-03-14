@@ -16,7 +16,7 @@ export NEWAPI_ACCESS_TOKEN=your-newapi-access-token
 export NEWAPI_USER_ID=your-newapi-user-id
 ```
 
-Alternatively, create a `.env` file (make sure it's in `.gitignore`).
+Alternatively, create a `.env` file (make sure it's in `.gitignore`). Environment variables are preferred over `.env` files because `.env` files risk accidental commits even with `.gitignore` in place. If you do use `.env`, never commit it to version control.
 
 ## Mental Model
 
@@ -24,7 +24,7 @@ This skill uses several JavaScript scripts with different responsibilities:
 
 - `scripts/api.js` handles New API management actions such as listing models, groups, balance, and token metadata.
 - `scripts/inject-key.js --scan <file_path>` safely shows the structure of an existing config file with secrets redacted.
-- `scripts/inject-key.js <token_id> <file_path>` replaces a placeholder with the real token key in a config file without exposing that key in the conversation, while creating a backup and atomically replacing the target file.
+- `scripts/inject-key.js <token_id> <file_path>` replaces a placeholder with the real token key in a config file without exposing that key in the conversation, atomically replacing the target file.
 - `scripts/exec-token.js <token_id> -- <command>` replaces a placeholder with the real token key in a shell command and executes it, sanitizing stdout/stderr before returning to the AI.
 
 When working with config files that may already contain secrets, always use `--scan` first. Do not read those files directly.
@@ -86,7 +86,6 @@ The expected workflow for configuring another app is:
 2. Edit the file so the target key field contains `__NEWAPI_TOKEN_{token_id}__`.
 3. Run `inject-key.js <token_id> <file_path>` to replace the placeholder with the real key.
 4. Trust the script's success or error message instead of reopening the file to inspect the written key.
-5. Delete the `.bak` backup file after confirming the config works — it contains the real key and should not be committed to version control or left unsecured.
 
 ## Error Handling
 
