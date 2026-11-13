@@ -5,7 +5,7 @@
     "url": "https://www.newapi.ai"
   },
   "metadata": {
-    "description": "Skills for managing new-api resources — models, groups, tokens and balance.",
+    "description": "Skills for new-api: manage models, groups, tokens and balance, and develop and publish New API plugins.",
     "version": "1.0.0"
   },
   "plugins": [
@@ -15,6 +15,13 @@
       "source": "./",
       "strict": false,
       "skills": ["./skills/newapi"]
+    },
+    {
+      "name": "newapi-plugin-dev",
+      "description": "Develop, test and publish New API plugins (plugin.js) on the newapi.ai community marketplace.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/newapi-plugin-dev"]
     }
   ]
 }

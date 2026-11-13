@@ -1,8 +1,15 @@
 # newapi-skills
 
-Skills for managing [new-api](https://github.com/QuantumNous/new-api) (open-source AI gateway) resources — models, groups, tokens and balance.
+Skills for [new-api](https://github.com/QuantumNous/new-api) (open-source AI gateway).
 
-## Installation
+| Skill | What it does |
+| ----- | ------------ |
+| [`newapi`](#newapi) | Manage your new-api resources — models, groups, tokens and balance |
+| [`newapi-plugin-dev`](#newapi-plugin-dev) | Develop, test and publish New API plugins on the [newapi.ai](https://www.newapi.ai) community marketplace |
+
+## newapi
+
+### Installation
 
 Use `npx` to install:
 
@@ -10,7 +17,7 @@ Use `npx` to install:
 npx skills add https://github.com/QuantumNous/skills --skill newapi
 ```
 
-## Configuration
+### Configuration
 
 Set the following three variables before using the skill. **Recommended: export as environment variables** (e.g. in your shell profile):
 
@@ -22,7 +29,7 @@ export NEWAPI_USER_ID=1
 
 Alternatively, you can create a `.env` file in the project root or the skill directory. Make sure `.env` is in your `.gitignore`.
 
-## Usage
+### Usage
 
 | Action | Usage | Description |
 | ------ | ----- | ----------- |
@@ -38,13 +45,31 @@ Alternatively, you can create a `.env` file in the project root or the skill dir
 | `scan-config` | `/newapi scan-config <file_path>` | Inspect config structure with best-effort secret redaction |
 | `help` | `/newapi help <question>` | Answer questions about newapi |
 
-## Requirements
+### Requirements
 
 One of the following JS runtimes (the skill auto-detects):
 
 - [Bun](https://bun.sh) (preferred)
 - Node.js >= 18
 - Deno
+
+## newapi-plugin-dev
+
+Guides an agent through writing a New API plugin (`plugin.js`), its `README.md` and `CHANGELOG.md`, validating it with `new-api plugin lint` and fixtures, and publishing it from your GitHub repository on the [newapi.ai community marketplace](https://www.newapi.ai/en/community).
+
+### Installation
+
+```bash
+npx skills add https://github.com/QuantumNous/skills --skill newapi-plugin-dev
+```
+
+### Usage
+
+Describe the plugin you want, for example:
+
+> Use the newapi-plugin-dev skill to build a New API plugin for the Example video API (docs: https://example.com/docs). My GitHub username is alice.
+
+The skill reads the [plugin API spec](https://github.com/QuantumNous/new-api/blob/main/docs/plugin-api/v1.md) and follows it. It needs no configuration; testing uses a [new-api release](https://github.com/QuantumNous/new-api/releases) binary or the `calciumion/new-api` Docker image.
 
 ## License
 
