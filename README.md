@@ -1,5 +1,9 @@
 # newapi-skills
 
+<!-- yarkr:badges:start -->
+[![Indexed on Yarkr](https://api.yarkr.com/functions/v1/api/api/v1/badges/repos/QuantumNous/skills/version.svg)](https://yarkr.com/arks/quantumnous/skills)
+<!-- yarkr:badges:end -->
+
 Skills for [new-api](https://github.com/QuantumNous/new-api) (open-source AI gateway).
 
 | Skill | What it does |
@@ -16,6 +20,39 @@ Use `npx` to install:
 ```bash
 npx skills add https://github.com/QuantumNous/skills --skill newapi
 ```
+
+<!-- yarkr:install:start -->
+### Install with Yarkr
+
+This repo is indexed on [Yarkr](https://yarkr.com/arks/quantumnous/skills) as the ark [quantumnous/skills](https://yarkr.com/arks/quantumnous/skills), so its skills install into Claude Code, Codex, Cursor and other agent harnesses with one command.
+
+#### CLI
+
+Install the whole ark, which Yarkr keeps equal to this repo:
+
+```bash
+npx yarkr-cli sync quantumnous/skills
+```
+
+Or add individual skills:
+
+```bash
+npx yarkr-cli add skill:quantumnous/skills/newapi
+npx yarkr-cli add skill:quantumnous/skills/newapi-plugin-dev
+```
+
+No Node.js? `curl -fsSL https://yarkr.com/install.sh | sh` (macOS, Linux) or `irm https://yarkr.com/install.ps1 | iex` (Windows PowerShell) installs `yarkr` as a standalone binary; then type `yarkr` in place of `npx yarkr-cli`.
+
+#### MCP
+
+Connect your agent to the ark over MCP:
+
+```bash
+npx yarkr-cli mcp add quantumnous/skills
+```
+
+Or point any MCP client at `https://api.yarkr.com/functions/v1/api/mcp/o/quantumnous/skills`.
+<!-- yarkr:install:end -->
 
 ### Configuration
 
